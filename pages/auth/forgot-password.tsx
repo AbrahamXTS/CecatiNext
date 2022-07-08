@@ -1,7 +1,8 @@
-import Link from 'next/link';
 import Image from 'next/image';
-import { useState, FormEvent } from 'react';
 import { useRouter } from "next/router"
+import { useState, FormEvent } from 'react';
+
+import { cecatiAPI } from "../../api";
 import { Header } from "../../components";
 
 export default function ForgotPassword() {
@@ -19,17 +20,11 @@ export default function ForgotPassword() {
 
 			setEmail(email.toLowerCase());
 
-			const options = {
-				method: "POST",
-				body: JSON.stringify({email}),
-				headers: {'Content-Type':'application/json'}
-			}
-
 			try {
-				const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`, options);
-				const data = await res.json();
+				const res = await cecatiAPI.post("/auth/forgot-password", { email });
 
 				if (res.status !== 200) {
+					const { data } = res;
 					throw new Error(data.validations[0].msg);
 				} else {
 					alert("¡Iniciaste el proceso de reestablecimiento de contraseña! Por favor revisa tu correo electronico para continuar.");

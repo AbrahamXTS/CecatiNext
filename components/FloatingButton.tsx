@@ -2,14 +2,14 @@ import { ReactNode } from "react";
 
 interface Props {
 	children: ReactNode;
-	setFunction: () => void;
+	handler: () => void;
 }
 
-export function FloatingButton({ children, setFunction }: Props) {
+export function FloatingButton({ children, handler }: Props) {
 	return (
 		<button
 			type="button"
-			onClick={setFunction}
+			onClick={handler}
 			className="fixed right-8 bottom-8"
 		>
 			{children}

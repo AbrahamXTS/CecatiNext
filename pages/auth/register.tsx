@@ -1,7 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useState, FormEvent } from 'react';
 import { useRouter } from "next/router";
+import { useState, FormEvent } from 'react';
+
+import Cookies from "js-cookie";
+import { cecatiAPI } from "../../api";
 import { Header } from "../../components";
 
 export default function Register() {
@@ -22,24 +25,14 @@ export default function Register() {
 
 			setEmail(email.toLowerCase());
 
-			const options = {
-				method: "POST",
-				body: JSON.stringify({ name, email, password, verification }),
-				headers: { "Content-Type": "application/json" },
-			};
-
 			try {
-				const res = await fetch(
-					`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
-					options
-				);
-				const data = await res.json();
+				const res = await cecatiAPI.post("/auth/register", { name, email, password, verification });
 
 				if (res.status !== 201) {
-					throw new Error(data.validations[0].msg);
+					const {data: { validations }} = res;
+					throw new Error(validations[0].msg);
 				} else {
-					alert("¡Usuario registrado correctamente! Revisa tu correo electrónico para continuar.");
-					router.push("/auth/login");
+					router.push("/login");
 				}
 			} catch (error) {
 				alert(error);

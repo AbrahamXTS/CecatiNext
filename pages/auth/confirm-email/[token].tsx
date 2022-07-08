@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router"
+
+import { cecatiAPI } from "../../../api";
 import { Header } from "../../../components";
 
 export default function ConfirmEmail() {
@@ -10,10 +12,10 @@ export default function ConfirmEmail() {
 	const handleSubmit = async () => {
 
 		try {
-			const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/confirm-email/${token}`);
-			const data = await res.json();
+			const res = await cecatiAPI.get(`/auth/confirm-email/${token}`);
 
 			if (res.status !== 201) {
+				const { data } = res;
 				throw new Error(data.validations[0].msg);
 			} else {
 				alert("Hemos confirmado tu cuenta. Por favor inicia sesión para continuar.");

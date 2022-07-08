@@ -1,6 +1,8 @@
 import Image from 'next/image';
-import { FormEvent, useState } from 'react';
 import { useRouter } from "next/router"
+import { FormEvent, useState } from 'react';
+
+import { cecatiAPI } from "../../../api";
 import { Header } from "../../../components";
 
 export default function NewPassword() {
@@ -18,17 +20,11 @@ export default function NewPassword() {
 			alert("Todos los campos son obligatorios.");
 		} else {
 
-			const options = {
-				method: "POST",
-				body: JSON.stringify({password, verification}),
-				headers: {'Content-Type':'application/json'}
-			}
-
 			try {
-				const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/new-password/${token}`, options);
-				const data = await res.json();
+				const res = await cecatiAPI.post(`/auth/new-password/${token}`, {password, verification});
 
 				if (res.status !== 200) {
+					const { data } = res;
 					throw new Error(data.validations[0].msg);
 				} else {
 					alert( "Hemos validado tu información correctamente y tu contraseña ha sido cambiada. Por favor inicia sesión para continuar." );

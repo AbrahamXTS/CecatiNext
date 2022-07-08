@@ -1,8 +1,10 @@
-import { generateJWT } from "../../../utils";
-import { UsuarioModel } from "../../../models";
+import { check, validationResult } from "express-validator";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type Data = { _jwt: string } | { validations: [{ msg: string }] };
+import { generateJWT } from "../../../utils";
+import { UsuarioModel } from "../../../models";
+
+type Data = { _jwt: string } | { validations: [{ msg: string }] } | { validations: [] };
 
 export default function handler( req: NextApiRequest, res: NextApiResponse<Data> ) {
 	switch (req.method) {
@@ -17,7 +19,17 @@ export default function handler( req: NextApiRequest, res: NextApiResponse<Data>
 }
 
 const handleLogin = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+	
 	const { email, password } = req.body;
+
+	await check("email").isString().notEmpty().withMessage("El campo de email es obligatorio.").isEmail().withMessage("El email ingresado no es valido.").run(req);
+	await check("password").notEmpty().withMessage("El campo de contraseña es obligatorio.").run(req);
+
+	if (validationResult(req).array().length > 0) {
+		return res.status(400).json({
+			validations: validationResult(req).array() as [],
+		});
+	}
 
 	try {
 		const user = await UsuarioModel.findOne({ where: { email } });

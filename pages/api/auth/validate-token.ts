@@ -19,7 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 
 const validateToken = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
-	const { _jwt = "" } = req.cookies;
+	const { _jwt = "" } = req.cookies || req.body;
 
 	try {
 

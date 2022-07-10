@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const cecatiAPI = axios.create({
-    baseURL: "/api"
+    baseURL: `${process.env.NEXT_PUBLIC_URL}/api`
 });

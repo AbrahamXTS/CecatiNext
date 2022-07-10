@@ -1,7 +1,8 @@
-import { Partida, PartidaModel } from "../../models";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type Data = { msg: string } | Partida[];
+import { Partida, PartidaModel } from "../../models";
+
+type Data = { msg: string } | { validations: [{ msg: string }] } | Partida[];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 	switch (req.method) {
@@ -9,7 +10,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 			return getAllPartidas(res);
 	
 		default:
-			return res.status(400).json({ msg: "Método HTTP no válido." })
+			return res.status(400).json({
+				validations: [{ msg: "Método HTTP inválido." }],
+			});
 	}
 }
 

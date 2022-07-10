@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Cookies from 'js-cookie';
+import { AxiosError } from "axios";
 import { useState, FormEvent } from "react";
 
 import { cecatiAPI } from "../../api";
@@ -24,16 +25,12 @@ export default function Login() {
 			try {
 				const res = await cecatiAPI.post("/auth/login", { email, password });
 
-				if (res.status !== 201) {
-					const {data: { validations }} = res;
-					throw new Error(validations[0].msg);
-				} else {
-					const {data: { _jwt }} = res;
-					Cookies.set("_jwt", _jwt);
-					router.push("/");
-				}
-			} catch (error) {
-				alert(error);
+				const {data: { _jwt }} = res;
+				Cookies.set("_jwt", _jwt);
+				router.push("/");
+				
+			} catch(error: (any | AxiosError)) {
+				alert(error.response.data.validations[0].msg);
 			}
 		}
 	};

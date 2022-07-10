@@ -30,7 +30,7 @@ export const sendEmailConfirmAccount = async (data: EmailData) => {
 			<div class="container">
 				<p class="title">¡Hola ${name}!</p>
 				<p>Tu cuenta ya está lista, solo debes confirmarla en el siguiente enlace:</p>
-				<a class="button" href=${process.env.URL}/auth/confirm-email/${token}>Confirmar cuenta</a>
+				<a class="button" href=${process.env.NEXT_PUBLIC_URL}/auth/confirm-email/${token}>Confirmar cuenta</a>
 				<p class="warning">
 					Si tu no creaste esta cuenta, puedes ignorar este mensaje
 				</p>
@@ -97,7 +97,7 @@ export const sendEmailResetPassword = async (data: EmailData) => {
 			<p class="title">¡Hola ${name}!</p>
 			<p>¿Solicitaste un reinicio a tu contraseña en el sistema de gestión de almacén <span class="title">CECATI 50</span>?</p>
 			<p>Si fue así, por favor ingresa al siguiente enlace:</p>
-			<a class="button" href=${process.env.URL}/auth/new-password/${token}>Reestablecer contraseña</a>
+			<a class="button" href=${process.env.NEXT_PUBLIC_URL}/auth/new-password/${token}>Reestablecer contraseña</a>
 			<p class="warning">
 				Si tu no lo solicitaste, puedes ignorar este mensaje
 			</p>

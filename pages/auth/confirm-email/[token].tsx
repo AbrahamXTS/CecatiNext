@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router"
 
 import { cecatiAPI } from "../../../api";
@@ -14,15 +15,11 @@ export default function ConfirmEmail() {
 		try {
 			const res = await cecatiAPI.get(`/auth/confirm-email/${token}`);
 
-			if (res.status !== 201) {
-				const { data } = res;
-				throw new Error(data.validations[0].msg);
-			} else {
-				alert("Hemos confirmado tu cuenta. Por favor inicia sesión para continuar.");
-				router.push("/auth/login");
-			}
-		} catch(error) {
-			alert(error);
+			alert("Hemos confirmado tu cuenta. Por favor inicia sesión para continuar.");
+			router.push("/auth/login");
+			
+		} catch(error: (any | AxiosError)) {
+			alert(error.response.data.validations[0].msg);
 		}
 	}
 

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useState, FormEvent } from 'react';
 
-import Cookies from "js-cookie";
 import { cecatiAPI } from "../../api";
 import { Header } from "../../components";
 
@@ -22,20 +22,16 @@ export default function Register() {
 		if ([name, email, password, verification].includes("")) {
 			alert("Todos los campos son obligatorios.");
 		} else {
+				setEmail(email.toLowerCase());
 
-			setEmail(email.toLowerCase());
-
-			try {
-				const res = await cecatiAPI.post("/auth/register", { name, email, password, verification });
-
-				if (res.status !== 201) {
-					const {data: { validations }} = res;
-					throw new Error(validations[0].msg);
-				} else {
+				try {
+					const res = await cecatiAPI.post("/auth/register", { name, email, password, verification });
+					alert("¡Usuario registrado correctamente!");
 					router.push("/login");
+
+				} catch(error: (any | AxiosError)) {
+					alert(error.response.data.validations[0].msg);
 				}
-			} catch (error) {
-				alert(error);
 			}
 		}
 	};

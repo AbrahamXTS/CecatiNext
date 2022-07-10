@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { AxiosError } from "axios";
 import { useRouter } from "next/router"
 import { FormEvent, useState } from 'react';
 
@@ -23,15 +24,11 @@ export default function NewPassword() {
 			try {
 				const res = await cecatiAPI.post(`/auth/new-password/${token}`, {password, verification});
 
-				if (res.status !== 200) {
-					const { data } = res;
-					throw new Error(data.validations[0].msg);
-				} else {
-					alert( "Hemos validado tu información correctamente y tu contraseña ha sido cambiada. Por favor inicia sesión para continuar." );
-					router.push("/auth/login");
-				}
-			} catch(error) {
-				alert(error);
+				alert("Hemos validado tu información correctamente y tu contraseña ha sido cambiada. Por favor inicia sesión para continuar.");
+				router.push("/auth/login");
+				
+			} catch(error: (any | AxiosError)) {
+				alert(error.response.data.validations[0].msg);
 			}
 		}
 	}

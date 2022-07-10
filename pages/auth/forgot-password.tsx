@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { AxiosError } from "axios";
 import { useRouter } from "next/router"
 import { useState, FormEvent } from 'react';
 
@@ -23,15 +24,11 @@ export default function ForgotPassword() {
 			try {
 				const res = await cecatiAPI.post("/auth/forgot-password", { email });
 
-				if (res.status !== 200) {
-					const { data } = res;
-					throw new Error(data.validations[0].msg);
-				} else {
-					alert("¡Iniciaste el proceso de reestablecimiento de contraseña! Por favor revisa tu correo electronico para continuar.");
-					router.push("/auth/login"); // Redireccionamos
-				}
-			} catch(error) {
-				alert(error);
+				alert("¡Iniciaste el proceso de reestablecimiento de contraseña! Por favor revisa tu correo electronico para continuar.");
+				router.push("/auth/login"); // Redireccionamos
+				
+			} catch(error: (any | AxiosError)) {
+				alert(error.response.data.validations[0].msg);
 			}
 		}
 	}

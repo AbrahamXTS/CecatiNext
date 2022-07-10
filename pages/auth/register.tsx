@@ -22,20 +22,19 @@ export default function Register() {
 		if ([name, email, password, verification].includes("")) {
 			alert("Todos los campos son obligatorios.");
 		} else {
-				setEmail(email.toLowerCase());
+			setEmail(email.toLowerCase());
 
-				try {
-					const res = await cecatiAPI.post("/auth/register", { name, email, password, verification });
-					alert("¡Usuario registrado correctamente!");
-					router.push("/login");
+			try {
+				const res = await cecatiAPI.post("/auth/register", { name, email, password, verification });
+				alert("¡Usuario registrado correctamente!");
+				router.push("/login");
 
-				} catch(error: (any | AxiosError)) {
-					alert(error.response.data.validations[0].msg);
-				}
+			} catch(error: (any | AxiosError)) {
+				alert(error.response.data.validations[0].msg);
 			}
 		}
-	};
-
+	}
+	
 	return (
 		<>
 			<Header title="Registro" />

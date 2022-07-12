@@ -1,7 +1,7 @@
 import path from "path";
 import Excel from "exceljs";
 import { copyFile } from "fs/promises";
-import { Producto } from "../interfaces";
+import { IProducto } from "../interfaces";
 
 interface dataForEntrie {
 	id: number;
@@ -11,7 +11,7 @@ interface dataForEntrie {
 	factura: string;
 	fecha: string;
 	procedencia: string;
-	productos: Producto[];
+	productos: IProducto[];
 	tipo: string;
 }
 
@@ -65,12 +65,12 @@ export const generateReportFromEntrie = async (entrada: dataForEntrie) => {
 	entrada.productos.forEach(
 		({ cantidad, nombre, observacion, partida, precio, unidad }) => {
 			row = worksheet.getRow(fila);
-			row.getCell(1).value = partida;
+			row.getCell(1).value = partida.split(" - ")[0];
 			row.getCell(2).value = nombre;
 			row.getCell(6).value = cantidad;
 			row.getCell(7).value = unidad;
 			row.getCell(8).value = precio;
-			row.getCell(10).value = observacion;
+			row.getCell(10).value = observacion || "Ninguna";
 			row.commit();
 			fila += 1;
 		}
@@ -85,7 +85,7 @@ interface dataForOutput {
 	responsable: string;
 	conformidad: string;
 	fecha: string;
-	productos: Producto[];
+	productos: IProducto[];
 }
 
 export const generateReportFromOutput = async (salida: dataForOutput) => {
@@ -131,12 +131,12 @@ export const generateReportFromOutput = async (salida: dataForOutput) => {
 	salida.productos.forEach(
 		({ cantidad, nombre, observacion, partida, precio, unidad }) => {
 			row = worksheet.getRow(fila);
-			row.getCell(1).value = partida;
+			row.getCell(1).value = partida.split(" - ")[0];
 			row.getCell(2).value = nombre;
 			row.getCell(6).value = cantidad;
 			row.getCell(7).value = unidad;
 			row.getCell(8).value = precio;
-			row.getCell(10).value = observacion;
+			row.getCell(10).value = observacion || "Ninguna";
 			row.commit();
 			fila += 1;
 		}

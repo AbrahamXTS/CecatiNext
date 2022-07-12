@@ -61,7 +61,7 @@ const handleNuevaEntrada = async (req: NextApiRequest, res: NextApiResponse<Data
                 idMovimiento: entrada.id!,
                 cantidad,
                 tipo: "Entrada",
-                observacion, 
+                observacion: observacion || "Ninguna", 
                 precio,
                 producto: nombre
             });

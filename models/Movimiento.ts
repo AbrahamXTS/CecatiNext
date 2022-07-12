@@ -36,7 +36,8 @@ export const MovimientoModel = db.define<Movimiento>(
 		},
 		observacion: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: true,
+			defaultValue: "Ninguna"
 		},
 	},
 	{

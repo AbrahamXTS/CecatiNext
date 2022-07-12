@@ -2,10 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 import { useState, FormEvent } from 'react';
 
 import { cecatiAPI } from "../../api";
 import { Header } from "../../components";
+import { validateJWT } from "../../utils";
 
 export default function Register() {
 	
@@ -25,9 +27,9 @@ export default function Register() {
 			setEmail(email.toLowerCase());
 
 			try {
-				const res = await cecatiAPI.post("/auth/register", { name, email, password, verification });
-				alert("¡Usuario registrado correctamente!");
-				router.push("/login");
+				await cecatiAPI.post("/auth/register", { name, email, password, verification });
+				alert("¡Usuario registrado correctamente! Revisa tu corre electronico para continuar el proceso de registro.");
+				router.push("/auth/login");
 
 			} catch(error: (any | AxiosError)) {
 				alert(error.response.data.validations[0].msg);
@@ -102,4 +104,28 @@ export default function Register() {
 			</main>
 		</>
 	);
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+	 
+	const { _jwt = "" } = req.cookies;
+	let isValidToken: boolean;
+
+	try {
+		validateJWT(_jwt);
+		isValidToken = true;
+	} catch(e) {
+		isValidToken = false;
+	}
+
+	if ( isValidToken ) {
+		return {
+			redirect: {
+				destination: "/",
+				permanent: false
+			}
+		}
+	}
+
+	return {props: {}}
 }

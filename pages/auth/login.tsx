@@ -2,11 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import Cookies from 'js-cookie';
 import { AxiosError } from "axios";
+import { GetServerSideProps } from "next";
 import { useState, FormEvent } from "react";
 
 import { cecatiAPI } from "../../api";
 import { useRouter } from "next/router";
 import { Header } from "../../components";
+import { validateJWT } from "../../utils";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -86,4 +88,28 @@ export default function Login() {
 			</main>
 		</>
 	);
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+	 
+	const { _jwt = "" } = req.cookies;
+	let isValidToken: boolean;
+
+	try {
+		validateJWT(_jwt);
+		isValidToken = true;
+	} catch(e) {
+		isValidToken = false;
+	}
+
+	if ( isValidToken ) {
+		return {
+			redirect: {
+				destination: "/",
+				permanent: false
+			}
+		}
+	}
+
+	return {props: {}}
 }

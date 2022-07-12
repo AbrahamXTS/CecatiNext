@@ -1,12 +1,8 @@
 import { db } from "../config/";
-import { Model, DataTypes, InferAttributes, InferCreationAttributes, } from "sequelize";
+import { DataTypes } from "sequelize";
+import { IPartida } from "../interfaces";
 
-export interface Partida extends Model<InferAttributes<Partida>, InferCreationAttributes<Partida>> {
-	id: string;
-	partida: string;
-}
-
-export const PartidaModel = db.define<Partida>(
+export const PartidaModel = db.define<IPartida>(
 	"partidas",
 	{
 		id: {

@@ -15,24 +15,26 @@ export default function Menu () {
 		<>
 			<Header title="Menu" />
 
-			<header className="container text-center mx-auto md:mt-10">
-				<Image
-					src="/img/logo.png"
-					width={125}
-					height={125}
-					alt="Logo"
-					className="mx-auto mt-5"
-				/>
-				<h1 className="text-rojo font-bold text-4xl my-7">Menú de inicio</h1>
-				<h2 className="font-bold text-xl">¡Bienvenido de vuelta!</h2>
-			</header>
+			<div className="md:w-80 mx-auto">
+				<header className="container text-center mx-auto md:mt-10">
+					<Image
+						src="/img/logo.png"
+						width={125}
+						height={125}
+						alt="Logo"
+						className="mx-auto mt-5"
+					/>
+					<h1 className="text-rojo font-bold text-4xl my-7">Menú de inicio</h1>
+					<h2 className="font-bold text-xl">¡Bienvenido de vuelta!</h2>
+				</header>
 
-			<div className="flex flex-col text-center mt-10 gap-7 text-lg">
-				<Link href="/entrada">Entrada de articulos</Link>
-				<Link href="/salida">Salida de articulos</Link>
-				<Link href="/existencias">Consultar existencias</Link>
-				<Link href="/vales">Vales de almacen</Link>
-				<Link href="/movimientos">Resumen de movimientos</Link>
+				<div className="flex flex-col text-center mt-10 gap-7 text-lg">
+					<Link href="/entrada">Entrada de articulos</Link>
+					<Link href="/salida">Salida de articulos</Link>
+					<Link href="/existencias">Consultar existencias</Link>
+					<Link href="/vales">Vales de almacen</Link>
+					<Link href="/movimientos">Resumen de movimientos</Link>
+				</div>
 			</div>
 
 			<FloatingButton handler={() => {

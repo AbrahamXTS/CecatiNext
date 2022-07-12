@@ -1,19 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { IProducto } from "../../interfaces";
 import { generateReportFromEntrie } from "../../utils";
 import { EntradaModel, ProductoModel, MovimientoModel } from "../../models";
 
 type Data = { msg: string } | { validations: [{ msg: string }] } | { validations: [] };
-
-export interface Producto {
-    cantidad: number;
-    clave: string;
-    nombre: string;
-    observacion: string;
-    partida: string;
-    precio: number;
-    unidad: string;
-}
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 	switch (req.method) {
@@ -49,7 +40,7 @@ const handleNuevaEntrada = async (req: NextApiRequest, res: NextApiResponse<Data
         tipo
     });
 
-    productos.forEach(({ cantidad, clave, nombre, observacion, partida, precio, unidad }: Producto) => {
+    productos.forEach(({ cantidad, clave, nombre, observacion, partida, precio, unidad }: IProducto) => {
         (async () => {
             const producto = await ProductoModel.findOne({ where: { clave } });
 
@@ -78,6 +69,5 @@ const handleNuevaEntrada = async (req: NextApiRequest, res: NextApiResponse<Data
     });
 
     generateReportFromEntrie({ id: entrada.id!, almacenista, director, elaborador, factura, fecha, procedencia, productos, tipo });
-	// return res.status(201).sendFile(path.resolve("public", "tempEntrada.xlsx"));
     return res.status(201).json({ msg: "Entrada registrada correctamente." });
 }

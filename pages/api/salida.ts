@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { Producto } from "./entrada";
+import { IProducto } from "../../interfaces";
 import { generateReportFromOutput } from "../../utils";
 import { SalidaModel, ProductoModel, MovimientoModel } from "../../models";
 
@@ -29,7 +29,7 @@ export const handleNuevaSalida = async (req: NextApiRequest, res: NextApiRespons
         fecha 
     });
 
-    productos.forEach(({ cantidad, clave, nombre, observacion, precio }: Producto) => {
+    productos.forEach(({ cantidad, clave, nombre, observacion, precio }: IProducto) => {
         (async () => {
             const producto = await ProductoModel.findOne({ where: { clave } });
 
@@ -42,7 +42,7 @@ export const handleNuevaSalida = async (req: NextApiRequest, res: NextApiRespons
                 idMovimiento: salida.id!,
                 cantidad,
                 tipo: "Salida",
-                observacion, 
+                observacion: observacion || "Ninguna", 
                 precio,
                 producto: nombre
             });

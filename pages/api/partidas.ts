@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { Partida, PartidaModel } from "../../models";
+import { PartidaModel } from "../../models";
+import { IPartida } from "../../interfaces";
 
-type Data = { msg: string } | { validations: [{ msg: string }] } | Partida[];
+type Data = { msg: string } | { validations: [{ msg: string }] } | IPartida[];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 	switch (req.method) {

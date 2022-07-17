@@ -63,7 +63,7 @@ const handleNuevaEntrada = async (req: NextApiRequest, res: NextApiResponse<Data
                 tipo: "Entrada",
                 observacion: observacion || "Ninguna", 
                 precio,
-                producto: nombre
+                producto: clave
             });
         })();
     });

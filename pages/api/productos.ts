@@ -18,24 +18,25 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 
 export const getAllProductos = async (req: NextApiRequest, res: NextApiResponse) => {  
     try {
+        // TODO: Revisar si la formula es correcta.
         const [ results ] = await db.query(
-            `SELECT 
-                AVG (precio) AS precio,
-                productos.nombre,
-                productos.cantidad,
-                productos.clave,
-                productos.partida,
-                productos.unidad
-            FROM movimientos 
-            JOIN productos
-            ON movimientos.producto = productos.nombre
-            WHERE tipo = "Entrada"
-            GROUP BY 
-                productos.nombre,
-                productos.cantidad, 
-                productos.clave, 
-                productos.partida, 
-                productos.unidad`
+        `SELECT 
+            IF (COUNT(*) > 1, SUM(precio) / productos.cantidad, SUM(precio)) AS precio,
+            productos.nombre,
+            productos.cantidad,
+            productos.clave,
+            productos.partida,
+            productos.unidad
+        FROM movimientos 
+        JOIN productos
+        ON movimientos.producto = productos.clave
+        WHERE tipo = "Entrada"
+        GROUP BY 
+            productos.nombre,
+            productos.cantidad, 
+            productos.clave, 
+            productos.partida, 
+            productos.unidad`
         );
 
         return res.json(results);

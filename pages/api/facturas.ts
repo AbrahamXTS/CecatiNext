@@ -19,9 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 const getAllFacturas = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     try {
         const [ results ] = await db.query(
-            `SELECT 
-                factura
-            FROM entradas`
+            `SELECT factura FROM entradas`
         );
 
         return res.json(results);

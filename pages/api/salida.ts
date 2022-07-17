@@ -29,11 +29,17 @@ export const handleNuevaSalida = async (req: NextApiRequest, res: NextApiRespons
         fecha 
     });
 
-    productos.forEach(({ cantidad, clave, nombre, observacion, precio }: IProducto) => {
+    productos.forEach(({ cantidad, clave, observacion, precio }: IProducto) => {
         (async () => {
             const producto = await ProductoModel.findOne({ where: { clave } });
 
             if (producto) {
+                if (producto.cantidad - cantidad < 0) {
+                    return res.status(409).json({
+                        validations: [{ msg: `La cantidad solicitada es mayor a la disponible en el producto ${producto.nombre}` }]
+                    });
+                }
+
                 producto.cantidad -= cantidad;
                 await producto.save();
             }
@@ -44,7 +50,7 @@ export const handleNuevaSalida = async (req: NextApiRequest, res: NextApiRespons
                 tipo: "Salida",
                 observacion: observacion || "Ninguna", 
                 precio,
-                producto: nombre
+                producto: clave
             });
         })();
     });

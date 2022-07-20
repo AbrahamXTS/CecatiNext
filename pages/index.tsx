@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
+import { db } from "../config";
 import { validateJWT } from "../utils";
 import { Header, FloatingButton } from "../components";
 
@@ -51,6 +52,10 @@ export default function Menu () {
 
 // Redirecciona si no encuentra o valida el JWT
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+
+	if (process.env.NODE_ENV == "development") {
+        await db.sync();
+    }
 	 
 	const { _jwt = "" } = req.cookies;
 	let isValidToken: boolean;

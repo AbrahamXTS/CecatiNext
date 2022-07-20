@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { check, validationResult } from "express-validator";
 
-import { db } from '../../../config/database';
 import { UsuarioModel } from "../../../models";
 import { generateId, sendEmailConfirmAccount } from "../../../utils";
 
@@ -20,10 +19,6 @@ export default function handler( req: NextApiRequest, res: NextApiResponse<Data>
 }
 
 const handleRegister = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-
-    if (process.env.NODE_ENV == "development") {
-        await db.sync();
-    }
 	
     const { name, email, password } = req.body;
 

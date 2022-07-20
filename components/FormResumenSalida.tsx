@@ -11,7 +11,7 @@ export function FormResumenSalida({ data }: Props) {
 		<>
 			<header className="py-8">
 				<h1 className="text-center uppercase text-[27px] font-bold">
-					Resumen de factura
+					Resumen de salida
 				</h1>
 			</header>
 
@@ -21,20 +21,14 @@ export function FormResumenSalida({ data }: Props) {
 						<p className="uppercase font-bold my-[13px] mr-2 text-lg"> Almacenista: </p>
 						<p className="text-lg">{data.almacenista}</p>
 					</li>
-				</ul>
-				<ul>
 					<li className="flex items-center">
 						<p className="uppercase font-bold my-[13px] mr-2 text-lg"> Responsable del área solicitante: </p>
 						<p className="text-lg">{data.responsable}</p>
 					</li>
-				</ul>
-				<ul>
 					<li className="flex items-center">
 						<p className="uppercase font-bold my-[13px] mr-2 text-lg"> Firma de conformidad: </p>
 						<p className="text-lg">{data.conformidad}</p>
 					</li>
-				</ul>
-				<ul>
 					<li className="flex items-center">
 						<p className="uppercase font-bold my-[13px] mr-2 text-lg"> Total de articulos salidos: </p>
 						<p className="text-lg">{data.productos.length}</p>

@@ -1,3 +1,6 @@
+export * from "./Buscador";
+export * from "./Error";
+export * from "./Existencia";
 export * from "./FloatingButton";
 export * from "./FormEntrada";
 export * from "./FormProductosEntrada";
